@@ -9,7 +9,6 @@ bscott.murphy@gmail.com
 Dependencies:
     numpy
     scipy
-    matplotlib
     Cython
 
 Classes:
@@ -26,7 +25,7 @@ import warnings
 import numpy as np
 import scipy.linalg
 from scipy.spatial.distance import cdist
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from . import variogram_models
 from . import core
 from .core import _adjust_for_anisotropy, _initialize_variogram_model, \
@@ -255,7 +254,7 @@ class OrdinaryKriging:
     def __init__(self, x, y, z, variogram_model='linear',
                  variogram_parameters=None, variogram_function=None, nlags=6,
                  weight=False, anisotropy_scaling=1.0, anisotropy_angle=0.0,
-                 verbose=False, enable_plotting=False, enable_statistics=False,
+                 verbose=False, enable_statistics=False,
                  coordinates_type='euclidean'):
 
         # Code assumes 1D input arrays of floats. Ensures that any extraneous dimensions
@@ -268,9 +267,6 @@ class OrdinaryKriging:
         self.Z = np.atleast_1d(np.squeeze(np.array(z, copy=True, dtype=np.float64)))
 
         self.verbose = verbose
-        self.enable_plotting = enable_plotting
-        if self.enable_plotting and self.verbose:
-            print("Plotting Enabled\n")
 
         # adjust for anisotropy... only implemented for euclidean (rectangular) coordinates,
         # as anisotropy is ambiguous for geographic coordinates...
@@ -347,9 +343,7 @@ class OrdinaryKriging:
                       self.variogram_model_parameters[2])
                 print("Range:", self.variogram_model_parameters[1])
                 print("Nugget:", self.variogram_model_parameters[2], '\n')
-        if self.enable_plotting:
-            self.display_variogram_model()
-
+        
         if self.verbose:
             print("Calculating statistics on variogram model fit...")
         if enable_statistics:
@@ -439,8 +433,7 @@ class OrdinaryKriging:
                       self.variogram_model_parameters[2])
                 print("Range:", self.variogram_model_parameters[1])
                 print("Nugget:", self.variogram_model_parameters[2], '\n')
-        if self.enable_plotting:
-            self.display_variogram_model()
+        
 
         if self.verbose:
             print("Calculating statistics on variogram model fit...")
@@ -457,34 +450,13 @@ class OrdinaryKriging:
             print("Q2 =", self.Q2)
             print("cR =", self.cR, '\n')
 
-    def display_variogram_model(self):
-        """Displays variogram model with the actual binned data"""
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        ax.plot(self.lags, self.semivariance, 'r*')
-        ax.plot(self.lags,
-                self.variogram_function(self.variogram_model_parameters, self.lags), 'k-')
-        plt.show()
-
     def switch_verbose(self):
         """Allows user to switch code talk-back on/off. Takes no arguments."""
         self.verbose = not self.verbose
 
-    def switch_plotting(self):
-        """Allows user to switch plot display on/off. Takes no arguments."""
-        self.enable_plotting = not self.enable_plotting
-
     def get_epsilon_residuals(self):
         """Returns the epsilon residuals for the variogram fit."""
         return self.epsilon
-
-    def plot_epsilon_residuals(self):
-        """Plots the epsilon residuals for the variogram fit."""
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        ax.scatter(range(self.epsilon.size), self.epsilon, c='k', marker='*')
-        ax.axhline(y=0.0)
-        plt.show()
 
     def get_statistics(self):
         return self.Q1, self.Q2, self.cR
