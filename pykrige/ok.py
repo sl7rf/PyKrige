@@ -25,7 +25,6 @@ import warnings
 import numpy as np
 import scipy.linalg
 from scipy.spatial.distance import cdist
-# import matplotlib.pyplot as plt
 from . import variogram_models
 from . import core
 from .core import _adjust_for_anisotropy, _initialize_variogram_model, \
@@ -40,7 +39,6 @@ class OrdinaryKriging:
     Dependencies:
         numpy
         scipy
-        matplotlib
 
     Inputs:
         X (array-like): X-coordinates of data points.
@@ -130,8 +128,7 @@ class OrdinaryKriging:
             set to 'geographic'.
         verbose (Boolean, optional): Enables program text output to monitor
             kriging process. Default is False (off).
-        enable_plotting (Boolean, optional): Enables plotting to display
-            variogram. Default is False (off).
+       
         enable_statistics (Boolean, optional). Default is False
         coordinates_type (string, optional): One of 'euclidean' or 'geographic'.
             Determines if the x and y coordinates are interpreted as on a plane
@@ -176,13 +173,10 @@ class OrdinaryKriging:
                     account anisotropy. Default is 0 (no rotation).
 
         switch_verbose(): Enables/disables program text output. No arguments.
-        switch_plotting(): Enables/disable variogram plot display. No arguments.
-
+      
         get_epsilon_residuals(): Returns the epsilon residuals of the
             variogram fit. No arguments.
-        plot_epsilon_residuals(): Plots the epsilon residuals of the variogram
-            fit in the order in which they were calculated. No arguments.
-
+       
         get_statistics(): Returns the Q1, Q2, and cR statistics for the
             variogram fit (in that order). No arguments.
 
