@@ -9,7 +9,6 @@ bscott.murphy@gmail.com
 Dependencies:
     numpy
     scipy
-    matplotlib
 
 Classes:
     OrdinaryKriging3D: Support for 3D Ordinary Kriging.
@@ -144,8 +143,6 @@ class OrdinaryKriging3D:
             rotation, then z rotation. Scaling is applied after rotation.
         verbose (Boolean, optional): Enables program text output to monitor
             kriging process. Default is False (off).
-        enable_plotting (Boolean, optional): Enables plotting to display
-            variogram. Default is False (off).
 
     Callable Methods:
         display_variogram_model(): Displays semivariogram and variogram model.
@@ -198,13 +195,9 @@ class OrdinaryKriging3D:
                     See above for more information.
 
         switch_verbose(): Enables/disables program text output. No arguments.
-        switch_plotting(): Enables/disable variogram plot display. No arguments.
-
+        
         get_epsilon_residuals(): Returns the epsilon residuals of the
-            variogram fit. No arguments.
-        plot_epsilon_residuals(): Plots the epsilon residuals of the variogram
-            fit in the order in which they were calculated. No arguments.
-
+            variogram fit. No arguments
         get_statistics(): Returns the Q1, Q2, and cR statistics for the
             variogram fit (in that order). No arguments.
 
@@ -280,7 +273,7 @@ class OrdinaryKriging3D:
                  variogram_parameters=None, variogram_function=None, nlags=6,
                  weight=False, anisotropy_scaling_y=1., anisotropy_scaling_z=1.,
                  anisotropy_angle_x=0., anisotropy_angle_y=0.,
-                 anisotropy_angle_z=0., verbose=False, enable_plotting=False):
+                 anisotropy_angle_z=0., verbose=False):
 
         # Code assumes 1D input arrays. Ensures that any extraneous dimensions
         # don't get in the way. Copies are created to avoid any problems with
